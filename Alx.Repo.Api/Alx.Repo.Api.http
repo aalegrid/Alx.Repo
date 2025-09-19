@@ -1,0 +1,6 @@
+@Alx.Repo.Api_HostAddress = http://localhost:5215
+
+GET {{Alx.Repo.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
