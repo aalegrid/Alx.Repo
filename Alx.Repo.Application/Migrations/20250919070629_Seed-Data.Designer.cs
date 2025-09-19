@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alx.Repo.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250919030321_SeedItemData")]
-    partial class SeedItemData
+    [Migration("20250919070629_Seed-Data")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

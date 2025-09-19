@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Alx.Repo.Application.Migrations.ApplicationIdentityDb
 {
     /// <inheritdoc />
-    public partial class Identity : Migration
+    public partial class InitialIdentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

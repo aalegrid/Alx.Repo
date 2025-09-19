@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alx.Repo.Application.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250918131913_Initial")]
-    partial class Initial
+    [Migration("20250919070529_Initial-Data")]
+    partial class InitialData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

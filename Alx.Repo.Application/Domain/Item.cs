@@ -10,6 +10,19 @@ namespace Alx.Repo.Domain
 {
     public class Item : BaseEntity
     {
+        public Item(string name, string userId, int parentId, string description, string domain, string content, DateTime? auditCreatedOn, DateTime? auditLastUpdated, string auditCreatedByUser, string auditLastUpdatedByUser)
+        {
+            Name = name;
+            UserId = userId;
+            ParentId = parentId;
+            Description = description;
+            Domain = domain;
+            Content = content;
+            AuditCreatedOn = auditCreatedOn;
+            AuditLastUpdated = auditLastUpdated;
+            AuditCreatedByUser = auditCreatedByUser;
+            AuditLastUpdatedByUser = auditLastUpdatedByUser;
+        }
 
         public string Name { get; set; }
         public string UserId { get; set; }

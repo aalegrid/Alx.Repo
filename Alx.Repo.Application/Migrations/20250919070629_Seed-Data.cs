@@ -5,7 +5,7 @@
 namespace Alx.Repo.Application.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedItemData : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,7 +14,7 @@ namespace Alx.Repo.Application.Migrations
                 table: "Items",
                 columns: new[] { "Id", "Name", "UserId", "ParentId", "Description", "Domain", "Content", "AuditCreatedOn", "AuditLastUpdated", "AuditCreatedByUser", "AuditLastUpdatedByUser" },
                 values: new object[] { 1, "Item 01", "fa079815-1a1a-4030-97e2-dda7c6858385", 0, "Description", "Domain", "Content", DateTime.Now, DateTime.Now, "fa079815-1a1a-4030-97e2-dda7c6858385", "fa079815-1a1a-4030-97e2-dda7c6858385" }
-            );
+);
 
             migrationBuilder.InsertData(
                 table: "Items",

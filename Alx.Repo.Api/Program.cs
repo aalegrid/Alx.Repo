@@ -4,11 +4,13 @@ using Alx.Repo.Application.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Alx.Repo.Api.SwaggerExamples;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +66,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.ExampleFilters();
+
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Alx.Repo", Version = "V1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -90,6 +94,8 @@ builder.Services.AddSwaggerGen(c =>
             }
         });
 });
+
+builder.Services.AddSwaggerExamplesFromAssemblyOf<LoginExample.CreateLoginExample>();
 
 var app = builder.Build();
 
