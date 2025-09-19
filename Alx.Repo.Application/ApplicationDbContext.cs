@@ -21,11 +21,6 @@ namespace Alx.Repo.Application
         {
             modelBuilder.Entity<Item>().HasKey(p => p.Id);
 
-            //modelBuilder.Entity<Item>().HasData(
-            //    new Item { Id = 1, Name = "Item 1", UserId = "UserId", ParentId = 0, Domain = "Domain", Content = "Content", Description = "Descriptrion", AuditCreatedByUser = "AuditCreatedByUser", AuditLastUpdatedByUser = "AuditLastUpdatedByUser", AuditCreatedOn  = DateTime.Now, AuditLastUpdated  = DateTime.Now },
-            //    new Item { Id = 2, Name = "Item 2", UserId = "UserId", ParentId = 0, Domain = "Domain", Content = "Content", Description = "Descriptrion", AuditCreatedByUser = "AuditCreatedByUser", AuditLastUpdatedByUser = "AuditLastUpdatedByUser", AuditCreatedOn = DateTime.Now, AuditLastUpdated = DateTime.Now },
-            //    new Item { Id = 3, Name = "Item 3", UserId = "UserId", ParentId = 0, Domain = "Domain", Content = "Content", Description = "Descriptrion", AuditCreatedByUser = "AuditCreatedByUser", AuditLastUpdatedByUser = "AuditLastUpdatedByUser", AuditCreatedOn = DateTime.Now, AuditLastUpdated = DateTime.Now }
-            //);
         }
     }
 }
