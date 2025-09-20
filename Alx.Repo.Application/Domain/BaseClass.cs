@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-
 namespace Alx.Repo.Domain
 {
     public abstract class BaseEntity
@@ -15,8 +13,8 @@ namespace Alx.Repo.Domain
         public DateTime? AuditCreatedOn { get; set; }
         public DateTime? AuditLastUpdated { get; set; }
         [MaxLength(255)]
-        public string AuditCreatedByUser { get; set; }
+        public string AuditCreatedByUser { get; set; } = string.Empty;
         [MaxLength(255)]
-        public string AuditLastUpdatedByUser { get; set; }
+        public string AuditLastUpdatedByUser { get; set; } = string.Empty;
     }
 }

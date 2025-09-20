@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Alx.Repo.Api.Controllers
 {
@@ -39,7 +40,8 @@ namespace Alx.Repo.Api.Controllers
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim(ClaimTypes.Email, user.Email!),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -87,7 +89,8 @@ namespace Alx.Repo.Api.Controllers
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var jwtKey = _configuration.GetSection("JWT:Secret").Value ?? throw new InvalidOperationException("Config[JWT:Secret] not found.");
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],

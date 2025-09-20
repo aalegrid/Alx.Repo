@@ -50,7 +50,7 @@ public static class SeedApplicationUser
                     AppDomain = appDomain,
                     EmailConfirmed = true
                 };
-                var result = await userManager.CreateAsync(newAdminUser, password); // Replace with a strong password
+                var result = await userManager.CreateAsync(newAdminUser, password); 
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(newAdminUser, "Admin");

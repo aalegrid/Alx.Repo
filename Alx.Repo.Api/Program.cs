@@ -72,11 +72,18 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
+        //In = ParameterLocation.Header,
+        //Description = "Please paste 'Bearer {token}' to authenticate.",
+        //Name = "Authorization",
+        //Type = SecuritySchemeType.ApiKey,
+        //Scheme = "Bearer"
+
+        BearerFormat = "JWT",
+        Name = "JWT Authentication",
         In = ParameterLocation.Header,
-        Description = "Please paste 'Bearer {token}' to authenticate.",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -95,11 +102,17 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-builder.Services.AddSwaggerExamplesFromAssemblyOf<LoginExample.CreateLoginExample>();
+builder.Services.AddSwaggerExamplesFromAssemblyOf<LoginUserExample>();
+//builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile(new AutoMapperProfile()); // Add your specific mapping profile(s)
+                                            // Or scan an assembly for profiles:
+                                            // cfg.AddMaps(typeof(MyMappingProfile).Assembly);
+});
 
 var app = builder.Build();
-
-
 
 //Add default user
 using (var scope = app.Services.CreateScope())

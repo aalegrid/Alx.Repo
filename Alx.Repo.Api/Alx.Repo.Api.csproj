@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="SwaggerExamples\IExamplesProvider.cs" />
+    <Compile Remove="SwaggerExamples\LoginExample.cs" />
   </ItemGroup>
 
   <ItemGroup>

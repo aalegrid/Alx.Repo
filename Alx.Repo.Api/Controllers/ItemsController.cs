@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Alx.Repo.Api.Controllers
 {
@@ -38,21 +39,60 @@ namespace Alx.Repo.Api.Controllers
         {
 
             var items = await _mediator.Send(new ListItemsQuery());
-            if (items == null) return NotFound();
             return Ok(items);
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateItemCommand item)
+        public async Task<IActionResult> CreateItem([FromBody] CreateItemDto createItem)
         {
-            var itemId = await _mediator.Send(item);
+            var item = await _mediator.Send(new CreateItemCommand(createItem));
 
-            if(itemId  <= 0)
+            if (item == null || item.Id <= 0)
+            {
+                return NoContent();
+            }
 
-                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            return CreatedAtAction(nameof(CreateItem), new { id = item.Id }, item);
 
-            return Ok(new Response { Status = "Success", Message = string.Format("/items/{0}", itemId) });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditItem([FromBody] ItemDto editItem, int id)
+        {
+            try
+            {
+                var item = await _mediator.Send(new EditItemCommand(editItem, id));
+                return Ok(item);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteItemCommand(id));
+                return NoContent();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+            
+
         }
     }
 }
