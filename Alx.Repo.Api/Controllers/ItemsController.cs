@@ -57,7 +57,7 @@ namespace Alx.Repo.Api.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> EditItem([FromBody] ItemDto editItem, int id)
         {
             try
@@ -75,7 +75,7 @@ namespace Alx.Repo.Api.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
             try

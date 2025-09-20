@@ -54,8 +54,9 @@ namespace Alx.Repo.Api.Controllers
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    access_token = new JwtSecurityTokenHandler().WriteToken(token),
+                    //expires_in = DateTime.UtcNow.AddMinutes(120), // Set 2 hour validation
+                    expires_in = token.ValidTo // Use default - 3 hour validation
                 });
             }
             return Unauthorized();
