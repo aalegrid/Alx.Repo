@@ -1,4 +1,3 @@
-
 using Alx.Repo.Application;
 using Alx.Repo.Application.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,6 +59,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -109,9 +109,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<LoginUserExample>();
 
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.AddProfile(new AutoMapperProfile()); // Add your specific mapping profile(s)
-                                            // Or scan an assembly for profiles:
-                                            // cfg.AddMaps(typeof(MyMappingProfile).Assembly);
+    cfg.AddProfile<AutoMapperProfile>();
 });
 
 var app = builder.Build();
@@ -130,6 +128,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => builder
+     .AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
