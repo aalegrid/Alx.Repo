@@ -78,7 +78,7 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
                  m => m.Value?.Errors?.Select(e => Utilities.FormatModelStateValidationError(e.ErrorMessage)).ToArray() ?? Array.Empty<string>()
              );
 
-         var customResponse = new CustomErrorResponse
+         var customResponse = new ErrorResponse
          {
              Message = "One or more validation errors occurred.",
              Errors = errors

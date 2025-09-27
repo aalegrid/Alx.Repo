@@ -17,8 +17,8 @@ namespace Alx.Repo.Api.SwaggerExamples
      
             return new LoginUser
             {
-                Email = _config.GetSection("DefaultUser:Email").Value ?? throw new InvalidOperationException("Config[DefaultUser:Email] not found."),
-                Password = _config.GetSection("DefaultUser:Password").Value ?? throw new InvalidOperationException("Config[DefaultUser:Password] not found."),
+                Email = _config.GetSection("Users:Primary:Email").Value ?? throw new InvalidOperationException("Config[Users:Primary:Email] not found."),
+                Password = _config.GetSection("Users:Primary:Password").Value ?? throw new InvalidOperationException("Config[Users:Primary:Password] not found."),
             };
         }
     }

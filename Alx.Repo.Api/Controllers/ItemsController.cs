@@ -34,6 +34,7 @@ namespace Alx.Repo.Api.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet()]
         public async Task<ActionResult> GetItems()
         {

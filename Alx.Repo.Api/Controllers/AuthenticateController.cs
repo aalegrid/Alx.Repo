@@ -1,5 +1,6 @@
 ﻿using Alx.Repo.Application.Auth;
 using Alx.Repo.Application.Auth.Model;
+using Alx.Repo.Application.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,14 @@ namespace Alx.Repo.Api.Controllers
         {
             var userExists = await _userManager.FindByNameAsync(model.Email);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+            {
+                var errorDict = new Dictionary<string, string[]>
+                {
+                    { "UserExists", new[] { "User already exists." } }
+                };
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "User creation failed. Please check user details and try again.", Errors = errorDict });
+            }
+                
 
             ApplicationUser user = new()
             {
@@ -80,11 +88,23 @@ namespace Alx.Repo.Api.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
 
             };
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again.", Errors = (List<IdentityError>)result.Errors });
+            {
+                // Convert IEnumerable<IdentityError> to Dictionary<string, string[]>
+                var errorDict = result.Errors
+                    .GroupBy(e => e.Code)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Select(e => e.Description).ToArray()
+                    );
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponse { Message = "User creation failed. Please check user details and try again.", Errors = errorDict });
+            }
+
+            return Ok(new { Message = "User created successfully." });
+
         }
 
 

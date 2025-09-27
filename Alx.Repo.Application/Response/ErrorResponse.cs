@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alx.Repo.Application.Response
 {
-    public class CustomErrorResponse
+    public class ErrorResponse
     {
         public string? Message { get; set; }
         public Dictionary<string, string[]>? Errors { get; set; }
