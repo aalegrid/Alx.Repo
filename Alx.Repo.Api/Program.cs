@@ -1,15 +1,19 @@
+using Alx.Repo.Api.SwaggerExamples;
 using Alx.Repo.Application;
 using Alx.Repo.Application.Auth;
+using Alx.Repo.Application.Helper;
+using Alx.Repo.Application.Response;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Alx.Repo.Api.SwaggerExamples;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
-using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,9 +64,33 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddCors();
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+ {
+     options.InvalidModelStateResponseFactory = context =>
+     {
+         var errors = context.ModelState
+             .Where(m => m.Value?.Errors != null && m.Value.Errors.Any())
+             .ToDictionary(
+                 // m => m.Key == "$" ? "Error" : m.Key,
+                 m => m.Key,
+                 m => m.Value?.Errors?.Select(e => Utilities.FormatModelStateValidationError(e.ErrorMessage)).ToArray() ?? Array.Empty<string>()
+             );
+
+         var customResponse = new CustomErrorResponse
+         {
+             Message = "One or more validation errors occurred.",
+             Errors = errors
+         };
+
+         return new BadRequestObjectResult(customResponse);
+     };
+ });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+Utilities.Initialize(configuration);
 //builder.Services.AddSwaggerGen();
 
 
